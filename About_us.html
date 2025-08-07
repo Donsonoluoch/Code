@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Company</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandblue:    '#1E3A8A',
+            brandblack:   '#000000',
+            brandwhite:   '#FFFFFF',
+            branddarkblue:'#1A2F6B'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVpUqKfwO3W6Wqf8iFkX/jFqCg2w8/u/XJ28K1K1x/D6Q8I7K7T2gD/A7vP2z8H925I1+pXJ6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Untitled design.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+  /* Add these styles to your stylesheet */
+
+/* A class for all elements you want to animate */
+.float-in {
+  /* Start the elements above their final position */
+  transform: translateY(-50px);
+  /* Make them invisible initially */
+  opacity: 0;
+  /* Add a smooth transition for the animation */
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+/* This class will be added by JavaScript to trigger the animation */
+.float-in.visible {
+  /* Move the elements back to their original position */
+  transform: translateY(0);
+  /* Make them fully visible */
+  opacity: 1;
+}
+</style>
+  <!-- Alpine.js for interactivity -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-brandwhite text-brandblack">
+  <!-- scope navOpen here -->
+  <nav class="bg-brandblue text-brandwhite relative" x-data="{ navOpen: false }">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+
+      <!-- Brand -->
+      <a href="index.html" class="text-2xl font-bold">YourCompany</a>
+
+      <!-- Mobile hamburger button -->
+      <button
+        @click="navOpen = !navOpen"
+        class="md:hidden p-2 focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <!-- show hamburger when closed -->
+        <svg
+          x-show="!navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <!-- show X when open -->
+        <svg
+          x-show="navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Menu wrapper: hidden by default on mobile, always visible on md+ -->
+    <div
+      :class="{ 'block': navOpen, 'hidden': !navOpen }"
+      class="bg-brandblue text-brandwhite md:block md:static md:w-auto"
+    >
+      <ul class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:space-x-8">
+        <!-- Home link -->
+        <li>
+          <a href="index.html"
+             class="block px-4 py-2 md:py-0 hover:bg-branddarkblue transition">
+            Home
+          </a>
+        </li>
+
+        <!-- About dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button
+            @click="open = !open"
+            class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+            aria-haspopup="true"
+            :aria-expanded="open.toString()"
+          >
+            About
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+            style="display: none;"
+          >
+            <li><a href="About_us.html" class="block px-4 py-2 hover:bg-branddarkblue transition">About Us</a></li>
+            <li><a href="contact.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Contact</a></li>
+            <li><a href="services.html" class="block px-4 py-2 hover:bg-branddarkblue transition">Services</a></li>
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">FAQs</a></li> -->
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Quality Policy</a></li> -->
+          </ul>
+        </li>
+
+        <!-- Solutions dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Solutions
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue transition">Cloud Computing Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue transition">Artificial Intelligence Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue transition">Cybersecurity Solutions</a></li>
+          </ul>
+        </li>
+
+        <!-- Products dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Products
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Dynamics 365</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Power Apps</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Power BI</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container mx-auto px-4 py-12">
+
+    <section class="text-center mb-16" id="About_us">
+        <h1 class="float-in text-4xl md:text-5xl font-bold text-white mb-4" data-delay="0s">
+            Empowering Parastatals with Integrated Solutions
+        </h1>
+    </section>
+
+    
+   <section>
+    <h2 class="float-in text-3xl font-bold text-center mb-10 text-white" data-delay="0.4s">
+        Our Core Parastatal Solutions
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="0.6s">
+            <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-chart-line text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Finance & Accounting</h3>
+            <p class="text-gray-700 text-center">
+                Manage your financial operations with precision. Our module provides robust tools for budgeting, expenditure tracking, financial reporting, and compliance, ensuring transparency and accountability.
+            </p>
+        </div>
+
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="0.8s">
+            <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-cubes text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Supply Chain Management</h3>
+            <p class="text-gray-700 text-center">
+                Optimize your procurement and logistics processes. From requisition to vendor management and inventory control, our solution helps you reduce costs and improve operational efficiency.
+            </p>
+        </div>
+
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="1s">
+            <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-user-friends text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Human Resources & Administration</h3>
+            <p class="text-gray-700 text-center">
+                Simplify HR tasks and boost employee management. Our module handles everything from employee records and performance tracking to leave management and administrative workflows.
+            </p>
+        </div>
+
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="1.2s">
+            <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-money-check-alt text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Payroll</h3>
+            <p class="text-gray-700 text-center">
+                Ensure accurate and timely payroll processing. This module automates salary calculations, tax deductions, and statutory reporting, reducing errors and ensuring compliance with regulations.
+            </p>
+        </div>
+
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="1.4s">
+            <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-truck text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Fleet/Transport Management</h3>
+            <p class="text-gray-700 text-center">
+                Take control of your transport assets. Our solution helps with vehicle tracking, maintenance scheduling, fuel management, and route optimization to improve efficiency and cut costs.
+            </p>
+        </div>
+
+        <div class="float-in bg-gray-100 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group" data-delay="1.2s">
+    <div class="flex items-center justify-center w-16 h-16 bg-brandblue text-white rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+        <i class="fas fa-book text-3xl"></i>
+    </div>
+    <h3 class="text-2xl font-semibold text-brandblue mb-4 text-center">Academic solutions, Research & Citation</h3>
+    <p class="text-gray-700 text-center">
+        Our solution helps students and researchers manage their citations with ease. It automates the process of generating bibliographies and ensures academic integrity through a comprehensive plagiarism checker.
+    </p>
+</div>
+    </div>
+</section>
+</main>
+<footer class="bg-branddarkblue text-white py-12">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">YourCompany</h3>
+            <p class="text-gray-400 text-sm">
+                Empowering parastatals with integrated solutions to streamline operations, enhance efficiency, and drive sustainable growth.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Quick Links</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                <li><a href="#solutions" class="text-gray-400 hover:text-white transition">Solutions</a></li>
+                <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Solutions</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cloud Computing</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">AI Solutions</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cybersecurity</a></li>
+                <!-- <li><a href="#payroll" class="text-gray-400 hover:text-white transition">Payroll</a></li> -->
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Contact Us</h3>
+            <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+                <li><i class="fas fa-map-marker-alt mr-2"></i> 123 Street, City, Country</li>
+                <li><i class="fas fa-envelope mr-2"></i> info@yourcompany.com</li>
+                <li><i class="fas fa-phone mr-2"></i> +1 234 567 8900</li>
+            </ul>
+        </div>
+        
+    </div>
+    
+    <div class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 YourCompany. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Select all elements with the 'float-in' class
+        const elements = document.querySelectorAll('.float-in');
+
+        elements.forEach((el, index) => {
+            // Get the delay from the data-delay attribute, or use a default
+            const delay = parseFloat(el.getAttribute('data-delay')) || (index * 0.2);
+
+            // Add the 'visible' class after a short delay
+            setTimeout(() => {
+                el.classList.add('visible');
+            }, delay * 1000); // Convert seconds to milliseconds
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Company</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandblue:    '#1E3A8A',
+            brandblack:   '#000000',
+            brandwhite:   '#FFFFFF',
+            branddarkblue:'#1A2F6B'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Untitled design.png'); 
+   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+</style>
+  <!-- Alpine.js for interactivity -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+
+<body class="bg-brandwhite text-brandblack">
+  <!-- scope navOpen here -->
+  <nav class="bg-brandblue text-brandwhite relative" x-data="{ navOpen: false }">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+
+      <!-- Brand -->
+      <a href="index.html" class="text-2xl font-bold">YourCompany</a>
+
+      <!-- Mobile hamburger button -->
+      <button
+        @click="navOpen = !navOpen"
+        class="md:hidden p-2 focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <!-- show hamburger when closed -->
+        <svg
+          x-show="!navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <!-- show X when open -->
+        <svg
+          x-show="navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Menu wrapper: hidden by default on mobile, always visible on md+ -->
+    <div
+      :class="{ 'block': navOpen, 'hidden': !navOpen }"
+      class="bg-brandblue text-brandwhite md:block md:static md:w-auto"
+    >
+      <ul class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:space-x-8">
+        <!-- Home link -->
+        <li>
+          <a href="index.html"
+             class="block px-4 py-2 md:py-0 hover:bg-branddarkblue transition">
+            Home
+          </a>
+        </li>
+
+        <!-- About dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button
+            @click="open = !open"
+            class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+            aria-haspopup="true"
+            :aria-expanded="open.toString()"
+          >
+            About
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+            style="display: none;"
+          >
+            <li><a href="About_us.html" class="block px-4 py-2 hover:bg-branddarkblue transition">About Us</a></li>
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Awards</a></li> -->
+            <li><a href="services.html" class="block px-4 py-2 hover:bg-branddarkblue transition">Services</a></li>
+ <li><a href="contact.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Contact</a></li> <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Quality Policy</a></li> -->
+          </ul>
+        </li>
+
+        <!-- Solutions dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Solutions
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="#solution1" class="block px-4 py-2 hover:bg-branddarkblue transition">Cloud Computing Solutions</a></li>
+            <li><a href="#solution2" class="block px-4 py-2 hover:bg-branddarkblue transition">Artificial Intelligence Solutions</a></li>
+            <li><a href="#solution3" class="block px-4 py-2 hover:bg-branddarkblue transition">Cybersecurity Solutions</a></li>
+          </ul>
+        </li>
+
+        <!-- Products dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Products
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Dynamics 365</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Power Apps</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Power BI</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+ <main class="container mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold text-white mb-8">Our Solutions</h1>
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+            <h2 class="text-xl font-semibold" id="solution1">Cloud Computing Solutions</h2>
+            <p class="mt-2">Amazon Web Services (AWS): Offers a wide range of cloud services including computing power (EC2), storage (S3), and machine learning (SageMaker).
+                Microsoft Azure: Provides cloud services for applications, analytics, storage, and networking with a focus on hybrid cloud solutions.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded transition-colors duration-300 hover:bg-blue-600">Learn More</a>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+            <h2 class="text-xl font-semibold" id="solution2">Artificial Intelligence Solutions</h2>
+            <p class="mt-2">IBM Watson: AI-driven tools for data analysis and decision-making in healthcare, finance, and more.
+                Google AI: Solutions including natural language processing, computer vision, and AI-optimized hardware like Tensor Processing Units (TPUs).</p>
+            <a href="#" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded transition-colors duration-300 hover:bg-blue-600">Learn More</a>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+            <h2 class="text-xl font-semibold" id="solution3">Cybersecurity Solutions</h2>
+            <p class="mt-2">CrowdStrike Falcon: A cloud-native endpoint protection platform that uses AI to detect and respond to threats in real time.
+                Palo Alto Networks: Provides next-generation firewalls and cloud-based security solutions to protect networks and services.</p>
+            <a href="#" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded transition-colors duration-300 hover:bg-blue-600">Learn More</a>
+        </div>
+    </section>
+
+    <hr class="my-12 border-t border-gray-300">
+
+    <section class="mb-12">
+    <h2 class="text-2xl font-bold text-white mb-6">Client Success Stories</h2>
+    
+    <div class="relative overflow-hidden w-full h-auto">
+        <div id="testimonial-container" class="flex transition-transform duration-700 ease-in-out">
+
+            <div class="flex-none w-full bg-gray-100 rounded-lg p-8 md:flex items-center mx-2">
+                <img src="image12.png" alt="Client Testimonial" class="w-full md:w-1/3 rounded-lg object-cover mb-4 md:mb-0 md:mr-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Boosting Efficiency for Innovate Corp.</h3>
+                    <p class="mt-4 text-gray-600">"Innovate Corp. was struggling with slow, outdated processes. Our custom cloud computing solution helped them automate their workflows, resulting in a 40% increase in operational efficiency and a significant reduction in costs. The transition was seamless, and the ongoing support has been invaluable."</p>
+                    <div class="mt-4 text-gray-500 font-medium">
+                        <p>— Jane Doe, CEO of Innovate Corp.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-none w-full bg-gray-100 rounded-lg p-8 md:flex items-center mx-2">
+                <img src="image11.png" alt="Client Testimonial 2" class="w-full md:w-1/3 rounded-lg object-cover mb-4 md:mb-0 md:mr-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Scaling Operations for Global Solutions</h3>
+                    <p class="mt-4 text-gray-600">"Working with them has been a game-changer for our business. Their cybersecurity solutions provided the robust protection we needed to expand into new markets with confidence. The platform is intuitive, and their team is always there to help. We couldn't be happier with the results."</p>
+                    <div class="mt-4 text-gray-500 font-medium">
+                        <p>— John Smith, COO of Global Solutions</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <hr class="my-12 border-t border-gray-300">
+
+   <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Our Process</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+
+        <div class="p-6 bg-white rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <div class="w-16 h-16 mx-auto mb-4 bg-blue-500 text-white rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold">Analyze</h3>
+            <p class="mt-2 text-gray-600">We start by understanding your unique challenges and business goals to define the best path forward.</p>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <div class="w-16 h-16 mx-auto mb-4 bg-blue-500 text-white rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold">Implement</h3>
+            <p class="mt-2 text-gray-600">Our expert team builds and deploys a tailored solution, ensuring a smooth and secure integration.</p>
+        </div>
+
+        <div class="p-6 bg-white rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <div class="w-16 h-16 mx-auto mb-4 bg-blue-500 text-white rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold">Optimize</h3>
+            <p class="mt-2 text-gray-600">We provide ongoing support and optimization to ensure your solution continues to deliver maximum value.</p>
+        </div>
+    </div>
+</section>
+    <hr class="my-12 border-t border-gray-300">
+
+    <section>
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold cursor-pointer">What is the typical implementation timeline?</h3>
+                <p class="mt-2 text-gray-600">The timeline depends on the complexity of the project. We work closely with you to create a detailed project plan with clear milestones and a realistic schedule.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold cursor-pointer">Do you offer ongoing support and maintenance?</h3>
+                <p class="mt-2 text-gray-600">Yes, we provide a variety of support and maintenance packages, from basic troubleshooting to full-service managed IT solutions.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold cursor-pointer">Can your solutions integrate with our existing systems?</h3>
+                <p class="mt-2 text-gray-600">Our solutions are designed for flexibility. We perform a thorough analysis of your current systems to ensure seamless integration and avoid disruption.</p>
+            </div>
+        </div>
+    </section>
+    <hr class="my-12 border-t border-gray-300">
+
+<section class="text-center bg-blue-800 text-white p-10 rounded-lg shadow-xl
+                transform transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Business?</h2>
+    <p class="text-lg mb-6 max-w-3xl mx-auto">
+        Get in touch with our experts today to discuss your unique challenges and discover how our solutions can help you achieve your goals.
+    </p>
+    <a href="contact.html" class="bg-white text-blue-800 font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-gray-100">
+        Request a Demo
+    </a>
+</section>
+</main>
+<footer class="bg-branddarkblue text-white py-12">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">YourCompany</h3>
+            <p class="text-gray-400 text-sm">
+                Empowering parastatals with integrated solutions to streamline operations, enhance efficiency, and drive sustainable growth.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Quick Links</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="About_us.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                <li><a href="services.html" class="text-gray-400 hover:text-white transition">Services</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Solutions</a></li>
+                <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Solutions</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cloud Computing</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">AI Solutions</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cybersecurity</a></li>
+                <!-- <li><a href="#payroll" class="text-gray-400 hover:text-white transition">Payroll</a></li> -->
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Contact Us</h3>
+            <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+                <li><i class="fas fa-map-marker-alt mr-2"></i> 123 Street, City, Country</li>
+                <li><i class="fas fa-envelope mr-2"></i> info@yourcompany.com</li>
+                <li><i class="fas fa-phone mr-2"></i> +1 234 567 8900</li>
+            </ul>
+        </div>
+        
+    </div>
+    
+    <div class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 YourCompany. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('testimonial-container');
+        let currentIndex = 0;
+        const totalItems = container.children.length;
+
+        function scrollTestimonials() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            const scrollAmount = container.children[currentIndex].offsetLeft;
+            container.style.transform = `translateX(-${scrollAmount}px)`;
+        }
+
+        setInterval(scrollTestimonials, 5000); // Change testimonial every 5 seconds
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Company</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandblue:    '#1E3A8A',
+            brandblack:   '#000000',
+            brandwhite:   '#FFFFFF',
+            branddarkblue:'#1A2F6B'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Untitled design.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+</style>
+  <!-- Alpine.js for interactivity -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+
+<body class="bg-brandwhite text-brandblack">
+  <!-- scope navOpen here -->
+  <nav class="bg-brandblue text-brandwhite relative" x-data="{ navOpen: false }">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+
+      <!-- Brand -->
+      <a href="index.html" class="text-2xl font-bold">YourCompany</a>
+
+      <!-- Mobile hamburger button -->
+      <button
+        @click="navOpen = !navOpen"
+        class="md:hidden p-2 focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <!-- show hamburger when closed -->
+        <svg
+          x-show="!navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <!-- show X when open -->
+        <svg
+          x-show="navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Menu wrapper: hidden by default on mobile, always visible on md+ -->
+    <div
+      :class="{ 'block': navOpen, 'hidden': !navOpen }"
+      class="bg-brandblue text-brandwhite md:block md:static md:w-auto"
+    >
+      <ul class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:space-x-8">
+        <!-- Home link -->
+        <li>
+          <a href="index.html"
+             class="block px-4 py-2 md:py-0 hover:bg-branddarkblue transition">
+            Home
+          </a>
+        </li>
+
+        <!-- About dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button
+            @click="open = !open"
+            class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+            aria-haspopup="true"
+            :aria-expanded="open.toString()"
+          >
+            About
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+            style="display: none;"
+          >
+            <li><a href="About_us.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">About Us</a></li>
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Awards</a></li> -->
+            <li><a href="services.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Services</a></li>
+            <li><a href="contact.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Contact</a></li>
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Quality Policy</a></li> -->
+          </ul>
+        </li>
+
+        <!-- Solutions dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Solutions
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Cloud Computing Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Artificial Intelligence Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Cybersecurity Solutions</a></li>
+          </ul>
+        </li>
+
+        <!-- Products dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Products
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="https://www.microsoft.com/en-us/dynamics-365/products/business-central" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Dynamics 365</a></li>
+<li><a href="https://www.microsoft.com/en-us/power-platform/products/power-apps" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Power Apps</a></li>
+<li><a href="https://www.microsoft.com/en-us/power-platform/products/power-bi" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Power BI</a></li></ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container mx-auto px-4 py-12">
+    <section class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg mb-12" id="Home">
+        <div class="relative w-full h-96">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image6.png');"></div>
+            <div class="absolute inset-0 bg-brandblue opacity-60"></div>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-brandwhite p-8">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Powering Progress Through Innovative Tech Solutions in Nairobi</h1>
+                <p class="text-lg md:text-xl max-w-2xl mb-8">
+                    Your trusted partner for cutting-edge software and IT services, driving efficiency and growth for businesses across Nairobi and beyond.
+                </p>
+                <a href="services.html" class="bg-brandwhite text-brandblue font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
+                    Explore Our Services
+                </a>
+            </div>
+            
+        </div>
+    </section>
+    <section class="relative bg-gray-900 rounded-lg overflow-hidden shadow-lg mb-12" id="Solutions">
+    <div class="relative w-full h-96">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image7.png');"></div>
+        <div class="absolute inset-0 bg-brandblue opacity-60"></div>
+
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-brandwhite p-8">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Discover Our Innovative Solutions</h1>
+            <p class="text-lg md:text-xl max-w-2xl mb-8">
+                From Cloud Computing to Cybersecurity, we offer bespoke solutions to help your organization meet its unique challenges and achieve its goals.
+            </p>
+            <a href="solutions.html" class="bg-brandwhite text-brandblue font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300">
+                Explore Our Solutions
+            </a>
+        </div>
+        
+    </div>
+</section>
+      <section class="text-center py-8 mb-12">
+     <h2 class="text-2xl font-bold mb-6 text-white">Trusted by Leading Companies</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center">
+            <img src="image1.png" alt="Company A Logo" class="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300">
+            <img src="image2.png" alt="Company B Logo" class="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300">
+            <img src="image3.png" alt="Company C Logo" class="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300">
+            <img src="image4.png" alt="Company D Logo" class="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300">
+            <!-- <img src="image5.png" alt="Company E Logo" class="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"> -->
+        </div>
+    </section>
+    <hr class="my-12 border-t border-gray-300">
+
+    <section class="py-12">
+        <h2 class="text-3xl font-bold mb-8 text-center text-white">Our Latest Insights</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                <img src="image7.png" alt="Article 1 image" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">The Future of AI in Business Operations</h3>
+                    <p class="text-gray-600 text-sm mb-4">Discover how AI is revolutionizing workflows and enhancing productivity in modern enterprises.</p>
+                    <a href="#" class="text-blue-500 font-semibold hover:text-blue-700 transition-colors duration-300">Read More &rarr;</a>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                <img src="image9.png" alt="Article 2 image" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">5 Ways to Secure Your Cloud Infrastructure</h3>
+                    <p class="text-gray-600 text-sm mb-4">Learn essential strategies and tools to protect your data and prevent cyber threats in the cloud.</p>
+                    <a href="#" class="text-blue-500 font-semibold hover:text-blue-700 transition-colors duration-300">Read More &rarr;</a>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                <img src="image8.png" alt="Article 3 image" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Why Tech Consulting is Critical for SMEs</h3>
+                    <p class="text-gray-600 text-sm mb-4">Explore how small and medium-sized enterprises can leverage expert advice to scale their technology.</p>
+                    <a href="#" class="text-blue-500 font-semibold hover:text-blue-700 transition-colors duration-300">Read More &rarr;</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+<footer class="bg-branddarkblue text-white py-12">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">YourCompany</h3>
+            <p class="text-gray-400 text-sm">
+                Empowering parastatals with integrated solutions to streamline operations, enhance efficiency, and drive sustainable growth.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Quick Links</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                <li><a href="#solutions" class="text-gray-400 hover:text-white transition">Solutions</a></li>
+                <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Solutions</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cloud Computing</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">AI Solutions</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cybersecurity</a></li>
+                <!-- <li><a href="#payroll" class="text-gray-400 hover:text-white transition">Payroll</a></li> -->
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Contact Us</h3>
+            <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+                <li><i class="fas fa-map-marker-alt mr-2"></i> 123 Street, City, Country</li>
+                <li><i class="fas fa-envelope mr-2"></i> info@yourcompany.com</li>
+                <li><i class="fas fa-phone mr-2"></i> +1 234 567 8900</li>
+            </ul>
+        </div>
+        
+    </div>
+    
+    <div class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 YourCompany. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Company</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandblue:    '#1E3A8A',
+            brandblack:   '#000000',
+            brandwhite:   '#FFFFFF',
+            branddarkblue:'#1A2F6B'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Untitled design.png'); 
+    background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+</style>
+  <!-- Alpine.js for interactivity -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body class="bg-brandwhite text-brandblack">
+  <!-- scope navOpen here -->
+  <nav class="bg-brandblue text-brandwhite relative" x-data="{ navOpen: false }">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+
+      <!-- Brand -->
+      <a href="index.html" class="text-2xl font-bold">YourCompany</a>
+
+      <!-- Mobile hamburger button -->
+      <button
+        @click="navOpen = !navOpen"
+        class="md:hidden p-2 focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <!-- show hamburger when closed -->
+        <svg
+          x-show="!navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <!-- show X when open -->
+        <svg
+          x-show="navOpen"
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Menu wrapper: hidden by default on mobile, always visible on md+ -->
+    <div
+      :class="{ 'block': navOpen, 'hidden': !navOpen }"
+      class="bg-brandblue text-brandwhite md:block md:static md:w-auto"
+    >
+      <ul class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:space-x-8">
+        <!-- Home link -->
+        <li>
+          <a href="index.html"
+             class="block px-4 py-2 md:py-0 hover:bg-branddarkblue transition">
+            Home
+          </a>
+        </li>
+
+        <!-- About dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button
+            @click="open = !open"
+            class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+            aria-haspopup="true"
+            :aria-expanded="open.toString()"
+          >
+            About
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul
+            x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+            style="display: none;"
+          >
+            <li><a href="About_us.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">About Us</a></li>
+            <!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Awards</a></li> -->
+            <li><a href="services.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Services</a></li>
+            <li><a href="contact.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Contact</a></li>
+<!-- <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue transition">Quality Policy</a></li> -->
+          </ul>
+        </li>
+
+        <!-- Solutions dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Solutions
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Cloud Computing Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Artificial Intelligence Solutions</a></li>
+            <li><a href="solutions.html" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Cybersecurity Solutions</a></li>
+          </ul>
+        </li>
+
+        <!-- Products dropdown -->
+        <li x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  class="w-full text-left px-4 py-2 md:py-0 flex items-center justify-between hover:bg-branddarkblue transition"
+                  :aria-expanded="open.toString()"
+          >
+            Products
+            <svg :class="{ 'rotate-180': open }"
+                 class="ml-1 w-4 h-4 transform transition-transform"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <ul x-show="open"
+              @click.away="open = false"
+              x-transition
+              class="bg-brandwhite text-brandblack rounded-md shadow-lg absolute left-0 md:mt-2 md:w-48 z-20"
+              style="display: none;"
+          >
+            <li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Dynamics 365</a></li>
+<li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Power Apps</a></li>
+<li><a href="#" class="block px-4 py-2 hover:bg-branddarkblue hover:text-white transition">Power BI</a></li></ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container mx-auto px-4 py-12">
+    <section id="contact" class="py-20 px-4">
+    <div class="container mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-white">Get in Touch</h2>
+           <h3 class="mt-4 text-3xl md:text-4xl text-white">We'd love to hear from you. Please fill out the form or use our contact details below.</h3>  
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-brandwhite p-8 md:p-12 rounded-xl shadow-lg">
+
+            <div class="lg:order-2">
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-lg font-medium text-branddarkblue">Name</label>
+                        <input type="text" id="name" name="name"
+                            class="mt-1 block w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:border-brandblue focus:ring focus:ring-brandblue focus:ring-opacity-50 transition duration-200"
+                            placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-lg font-medium text-branddarkblue">Email</label>
+                        <input type="email" id="email" name="email"
+                            class="mt-1 block w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:border-brandblue focus:ring focus:ring-brandblue focus:ring-opacity-50 transition duration-200"
+                            placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-lg font-medium text-branddarkblue">Message</label>
+                        <textarea id="message" name="message" rows="5"
+                            class="mt-1 block w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:border-brandblue focus:ring focus:ring-brandblue focus:ring-opacity-50 transition duration-200"
+                            placeholder="Tell us what you're thinking..."></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit"
+                            class="inline-block w-full sm:w-auto px-8 py-4 text-lg font-semibold text-brandwhite bg-brandblue rounded-md shadow-md hover:bg-branddarkblue transition-colors duration-300 transform hover:scale-105">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="flex flex-col justify-center lg:order-1">
+                <div class="space-y-8 text-lg text-brandblack">
+                    <div class="flex items-start">
+                        <svg class="w-8 h-8 text-brandblue mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <div>
+                            <h4 class="font-bold text-branddarkblue">Our Office</h4>
+                            <p class="mt-1">123 Business Avenue</p>
+                            <p>City, State 12345</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <svg class="w-8 h-8 text-brandblue mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.992.857l.59 3.826a1 1 0 01-.192.855L3.844 9.58A13.064 13.064 0 0010.42 16.156l2.368-2.58a1 1 0 01.855-.192l3.826.59a1 1 0 01.857.992V18a1 1 0 01-1 1h-1a15.82 15.82 0 01-14-14h-1z">
+                            </path>
+                        </svg>
+                        <div>
+                            <h4 class="font-bold text-branddarkblue">Call Us</h4>
+                            <p class="mt-1">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <svg class="w-8 h-8 text-brandblue mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                            </path>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+                            </path>
+                        </svg>
+                        <div>
+                            <h4 class="font-bold text-branddarkblue">Email Us</h4>
+                            <p class="mt-1">info@yourcompany.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+</main>
+<footer class="bg-branddarkblue text-white py-12">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">YourCompany</h3>
+            <p class="text-gray-400 text-sm">
+                Empowering parastatals with integrated solutions to streamline operations, enhance efficiency, and drive sustainable growth.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Quick Links</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                <li><a href="#solutions" class="text-gray-400 hover:text-white transition">Solutions</a></li>
+                <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Solutions</h3>
+            <ul class="mt-4 space-y-2">
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cloud Computing</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">AI Solutions</a></li>
+                <li><a href="solutions.html" class="text-gray-400 hover:text-white transition">Cybersecurity</a></li>
+                <!-- <li><a href="#payroll" class="text-gray-400 hover:text-white transition">Payroll</a></li> -->
+            </ul>
+        </div>
+        
+        <div>
+            <h3 class="text-xl font-semibold border-b-2 border-brandblue pb-2">Contact Us</h3>
+            <ul class="mt-4 space-y-2 text-gray-400 text-sm">
+                <li><i class="fas fa-map-marker-alt mr-2"></i> 123 Street, City, Country</li>
+                <li><i class="fas fa-envelope mr-2"></i> info@yourcompany.com</li>
+                <li><i class="fas fa-phone mr-2"></i> +1 234 567 8900</li>
+            </ul>
+        </div>
+        
+    </div>
+    
+    <div class="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 YourCompany. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
